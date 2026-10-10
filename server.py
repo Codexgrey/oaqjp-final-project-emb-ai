@@ -34,7 +34,7 @@ def sent_detector():
         'joy' : joy,
         'sadness' : sadness
     }
-    
+
     # get name of dominant emotion
     dominant_emotion = max(scores, key=scores.get)
 
@@ -42,12 +42,12 @@ def sent_detector():
     if dominant_emotion is None:
         return "Invalid text! Please try again!"
 
-    # return output 
+    # return output
     return f"""
-    For the given statement, the system response is 'anger' : {scores['anger']}, 
-    'disgust' : {scores['disgust']}, 'fear" : {scores['fear']}, 
-    'joy' : {scores['joy']}, 'sadness' : {scores['sadness']}.
-    The dominant emotion is {dominant_emotion}.
+        For the given statement, the system response is 'anger' : {scores['anger']}, 
+        'disgust' : {scores['disgust']}, 'fear" : {scores['fear']}, 
+        'joy' : {scores['joy']}, 'sadness' : {scores['sadness']}.
+        The dominant emotion is {dominant_emotion}.
     """
 
 @app.route("/")
