@@ -17,7 +17,7 @@ def sent_detector():
     '''
     text_to_analyze = request.args.get('textToAnalyze')
     if text_to_analyze == "":
-        return "Please enter text."
+        return "Invalid text! Please try again!"
 
     res = emotion_detector(text_to_analyze)
     anger = res["anger"]
@@ -36,16 +36,19 @@ def sent_detector():
     }
     
     # get name of dominant emotion
-    dominant = max(scores, key=scores.get)
+    dominant_emotion = max(scores, key=scores.get)
+
+    # check if dominant emotion is none
+    if dominant_emotion is None:
+        return "Invalid text! Please try again!"
 
     # return output 
     return f"""
     For the given statement, the system response is 'anger' : {scores['anger']}, 
     'disgust' : {scores['disgust']}, 'fear" : {scores['fear']}, 
     'joy' : {scores['joy']}, 'sadness' : {scores['sadness']}.
-    The dominant emotion is {dominant}.
+    The dominant emotion is {dominant_emotion}.
     """
-
 
 @app.route("/")
 def render_index_page():
@@ -53,7 +56,6 @@ def render_index_page():
         page over the Flask channel
     '''
     return render_template('index.html')
-
 
 if __name__ == "__main__":
     app.run(port=5000)

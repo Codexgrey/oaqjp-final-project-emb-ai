@@ -9,12 +9,29 @@ def emotion_detector(text_to_analyze):
     response = requests.post(url, json=myobj, headers=header)
     
     # prepare output dict - formatting response with json, then extracting
-    res = json.loads(response.text)
-    anger_score = res["emotionPredictions"][0]["emotion"]["anger"]
-    disgust_score = res["emotionPredictions"][0]["emotion"]["disgust"]
-    fear_score = res["emotionPredictions"][0]["emotion"]["fear"]
-    joy_score = res["emotionPredictions"][0]["emotion"]["joy"]
-    sadness_score = res["emotionPredictions"][0]["emotion"]["sadness"]
+    if response.status_code == 200:
+        # parse API response
+        res = json.loads(response.text)
+        anger_score = res["emotionPredictions"][0]["emotion"]["anger"]
+        disgust_score = res["emotionPredictions"][0]["emotion"]["disgust"]
+        fear_score = res["emotionPredictions"][0]["emotion"]["fear"]
+        joy_score = res["emotionPredictions"][0]["emotion"]["joy"]
+        sadness_score = res["emotionPredictions"][0]["emotion"]["sadness"]
+    
+    elif response.status_code == 400:
+        anger_score = None
+        disgust_score = None
+        fear_score = None
+        joy_score = None
+        sadness_score = None
+    
+    else:
+        anger_score = None
+        disgust_score = None
+        fear_score = None
+        joy_score = None
+        sadness_score = None
+
 
     # score dictionary
     scores = {
